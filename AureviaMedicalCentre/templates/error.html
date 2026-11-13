@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}{{ e.code }}{% endblock %}
+{% block body %}<div class="auth-wrap"><div class="text-center"><div class="stat grad" style="font-size:5rem">{{ e.code }}</div>
+<h3>{% if e.code==403 %}Access denied{% elif e.code==404 %}Page not found{% else %}Something went wrong{% endif %}</h3>
+<p class="text-muted">{% if e.code==403 %}You don't have permission to view this page.{% elif e.code==404 %}We couldn't find what you were looking for.{% else %}Please go back and try again.{% endif %}</p>
+<a class="btn btn-brand" href="{{ url_for('main.index') }}">Back to home</a></div></div>{% endblock %}

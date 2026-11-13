@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Patient Management{% endblock %}
+{% block body %}{% include "_admin_nav.html" %}
+<div class="page-head"><div class="container"><h1>Patient Management</h1><p class="text-muted mb-0">{{ patients|length }} registered patients</p></div></div>
+<section class="section"><div class="container"><div class="card-x"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Blood</th><th>Appts</th><th></th></tr></thead><tbody>
+{% for p in patients %}<tr><td>{{ p.id }}</td><td class="fw-semibold">{{ p.full_name }}</td><td>{{ p.email }}</td><td>{{ p.phone }}</td><td>{{ p.blood_group }}</td><td>{{ p.appts }}</td><td><a class="btn btn-soft btn-sm" href="{{ url_for('main.patient_profile', patient_id=p.id) }}">View</a></td></tr>{% endfor %}</tbody></table></div></div></div></section>{% endblock %}

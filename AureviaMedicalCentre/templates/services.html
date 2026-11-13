@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Services{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container"><h1>Hospital Services</h1><p class="text-muted mb-0">Everything you need, right here.</p></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+{% set items = [('bi-ambulance','24x7 Emergency','Round-the-clock trauma and emergency response.'),('bi-capsule','Pharmacy','In-house pharmacy open all day and night.'),('bi-droplet-half','Laboratory','Accurate diagnostics with fast reports.'),('bi-camera-reels','Radiology & Imaging','X-ray, ultrasound, CT and MRI.'),('bi-hospital','In-patient Care','Comfortable private and shared rooms.'),('bi-clipboard2-heart','Health Check-ups','Preventive packages for every age.')] %}
+{% for icon,t,d in items %}<div class="col-md-6 col-lg-4"><div class="card-x"><div class="icon-b {{ ['','b2','b3'][loop.index0 % 3] }}"><i class="bi {{ icon }}"></i></div><h5>{{ t }}</h5><p class="text-muted mb-0">{{ d }}</p></div></div>{% endfor %}
+</div></div></section>
+{% endblock %}

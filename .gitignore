@@ -1,0 +1,35 @@
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Runtime data & secrets (never commit)
+AureviaMedicalCentre/database/*
+!AureviaMedicalCentre/database/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+secret.key
+.env
+.env.*
+!.env.example
+AureviaMedicalCentre/config.py
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+*.swp
+nohup.out
+
+# IDEs & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

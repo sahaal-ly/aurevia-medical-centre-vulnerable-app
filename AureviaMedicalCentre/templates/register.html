@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block title %}Patient Registration{% endblock %}
+{% block body %}<div class="auth-wrap"><div class="auth-card reveal" style="max-width:680px">
+ <div class="text-center mb-4"><h3>Patient Registration</h3><p class="text-muted">Create your account in under a minute.</p></div>
+ {% if errors %}<div class="alert alert-danger border-0 rounded-3"><ul class="mb-0 ps-3">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+ <form method="post" class="row g-3" novalidate><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="col-md-6"><label class="form-label">Full name</label><input name="full_name" class="form-control" value="{{ form.full_name }}" required></div>
+  <div class="col-md-6"><label class="form-label">Username</label><input name="username" class="form-control" value="{{ form.username }}" required></div>
+  <div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="{{ form.email }}" required></div>
+  <div class="col-md-6"><label class="form-label">Phone</label><input name="phone" class="form-control" value="{{ form.phone }}" required></div>
+  <div class="col-md-4"><label class="form-label">Date of birth</label><input type="date" name="dob" class="form-control" value="{{ form.dob }}" required></div>
+  <div class="col-md-4"><label class="form-label">Gender</label><select name="gender" class="form-select">{% for g in ['Female','Male','Other'] %}<option {{ 'selected' if form.gender==g }}>{{ g }}</option>{% endfor %}</select></div>
+  <div class="col-md-4"><label class="form-label">Blood group</label><select name="blood_group" class="form-select">{% for b in blood %}<option {{ 'selected' if form.blood_group==b }}>{{ b }}</option>{% endfor %}</select></div>
+  <div class="col-12"><label class="form-label">Address</label><input name="address" class="form-control" value="{{ form.address }}" required></div>
+  <div class="col-md-6"><label class="form-label">Password</label><input type="password" name="password" class="form-control" required autocomplete="new-password"></div>
+  <div class="col-md-6"><label class="form-label">Confirm password</label><input type="password" name="confirm" class="form-control" required autocomplete="new-password"></div>
+  <div class="col-12"><button class="btn btn-brand w-100 py-2">Create account</button></div></form>
+ <p class="text-center small text-muted mt-4 mb-0">Already registered? <a href="{{ url_for('main.patient_login') }}">Sign in</a></p>
+</div></div>{% endblock %}

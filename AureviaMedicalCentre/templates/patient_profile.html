@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Patient Profile{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container d-flex align-items-center gap-3"><div class="avatar">{{ p.full_name.split()[0][:1] }}{{ p.full_name.split()[-1][:1] }}</div>
+ <div><h1 class="mb-0 h2">{{ p.full_name }}</h1><span class="pill mt-1">Patient ID {{ p.id }}</span></div></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+ <div class="col-lg-6"><div class="card-x"><h5 class="mb-3">Personal details</h5>
+  <div class="info-row"><span>Email</span><span>{{ p.email }}</span></div><div class="info-row"><span>Phone</span><span>{{ p.phone }}</span></div>
+  <div class="info-row"><span>Date of birth</span><span>{{ p.dob }}</span></div><div class="info-row"><span>Gender</span><span>{{ p.gender }}</span></div>
+  <div class="info-row"><span>Address</span><span class="text-end">{{ p.address }}</span></div></div></div>
+ <div class="col-lg-6"><div class="card-x"><h5 class="mb-3">Medical summary</h5>
+  <div class="info-row"><span>Blood group</span><span class="badge-s s-Cancelled">{{ p.blood_group }}</span></div>
+  <div class="info-row"><span>Allergies</span><span>{{ p.allergies }}</span></div><div class="info-row"><span>Conditions</span><span>{{ p.conditions }}</span></div></div></div>
+</div></div></section>{% endblock %}

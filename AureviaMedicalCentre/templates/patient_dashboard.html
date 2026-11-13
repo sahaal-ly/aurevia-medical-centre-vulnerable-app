@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Patient Dashboard{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container"><h1>Welcome back, {{ p.full_name.split()[0] }} 👋</h1><p class="text-muted mb-0">Patient ID: {{ p.id }}</p></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+ <div class="col-md-4"><div class="card-x"><div class="icon-b"><i class="bi bi-calendar2-week"></i></div><div class="stat">{{ total }}</div><div class="text-muted">Total appointments</div></div></div>
+ <div class="col-md-4"><div class="card-x"><div class="icon-b b2"><i class="bi bi-person-vcard"></i></div><h5>My profile</h5><a class="btn btn-soft btn-sm" href="{{ url_for('main.my_profile') }}">View profile</a></div></div>
+ <div class="col-md-4"><div class="card-x"><div class="icon-b b3"><i class="bi bi-plus-circle"></i></div><h5>New appointment</h5><a class="btn btn-brand btn-sm" href="{{ url_for('main.book') }}">Book now</a></div></div>
+ <div class="col-12"><div class="card-x"><div class="d-flex justify-content-between mb-3"><h5>Upcoming appointments</h5><a href="{{ url_for('main.history') }}" class="small">View all</a></div>
+  {% if upcoming %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Date</th><th>Time</th><th>Doctor</th><th>Department</th><th>Reason</th></tr></thead><tbody>
+  {% for a in upcoming %}<tr><td>{{ a.appt_date }}</td><td>{{ a.appt_time }}</td><td>{{ a.doctor }}</td><td>{{ a.dept }}</td><td>{{ a.reason }}</td></tr>{% endfor %}</tbody></table></div>
+  {% else %}<p class="text-muted mb-0">No upcoming appointments. <a href="{{ url_for('main.book') }}">Book one</a>.</p>{% endif %}</div></div>
+</div></div></section>{% endblock %}

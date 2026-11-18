@@ -1,11 +1,16 @@
-{% extends "base.html" %}{% block title %}Admin Dashboard{% endblock %}
+{% extends "base.html" %}
+{% from "_components.html" import page_head, status %}
+{% block title %}Admin Dashboard{% endblock %}
 {% block body %}{% include "_admin_nav.html" %}
-<div class="page-head"><div class="container"><h1>Hospital Overview</h1><p class="text-muted mb-0">Live statistics from the hospital database.</p></div></div>
-<section class="section"><div class="container"><div class="row g-4">
-{% for label,val,ic,c in [('Patients',stats.patients,'bi-people',''),('Doctors',stats.doctors,'bi-person-badge','b2'),('Appointments',stats.appointments,'bi-calendar-check','b3'),('Scheduled',stats.scheduled,'bi-hourglass-split','')] %}
- <div class="col-6 col-lg-3"><div class="card-x"><div class="icon-b {{ c }}"><i class="bi {{ ic }}"></i></div><div class="stat">{{ val }}</div><div class="text-muted">{{ label }}</div></div></div>{% endfor %}
- <div class="col-lg-5"><div class="card-x"><h5 class="mb-3">Appointments by department</h5>
-  {% set mx = (by_dept|map(attribute='n')|max) or 1 %}{% for d in by_dept %}<div class="mb-3"><div class="d-flex justify-content-between small"><span>{{ d.name }}</span><strong>{{ d.n }}</strong></div><div class="bar"><span style="width:{{ (d.n/mx*100)|round }}%"></span></div></div>{% endfor %}</div></div>
- <div class="col-lg-7"><div class="card-x"><h5 class="mb-3">Recent appointments</h5><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead><tbody>
-  {% for a in recent %}<tr><td>{{ a.patient }}</td><td>{{ a.doctor }}</td><td>{{ a.appt_date }}</td><td><span class="badge-s s-{{ a.status }}">{{ a.status }}</span></td></tr>{% endfor %}</tbody></table></div></div></div>
-</div></div></section>{% endblock %}
+<div class="wrap">
+ {{ page_head('Hospital Overview', 'Live statistics from the hospital database.') }}
+ <section class="section--tight"><div class="row g-3 mt-1">
+ {% for label,val,ic,c in [('Patients',stats.patients,'bi-people',''),('Doctors',stats.doctors,'bi-person-badge','icon-chip--green'),('Appointments',stats.appointments,'bi-calendar-check',''),('Scheduled',stats.scheduled,'bi-hourglass-split','icon-chip--warm')] %}
+  <div class="col-6 col-lg-3" data-reveal><div class="card-x"><span class="icon-chip {{ c }} mb-3"><i class="bi {{ ic }}"></i></span><div class="stat-num">{{ val }}</div><div class="text-2">{{ label }}</div></div></div>{% endfor %}
+  <div class="col-lg-5" data-reveal><div class="card-x"><h3 class="mb-3">Appointments by department</h3>
+   {% set mx = (by_dept|map(attribute='n')|max) or 1 %}{% for d in by_dept %}<div class="mb-3"><div class="d-flex justify-content-between small mb-1"><span>{{ d.name }}</span><strong>{{ d.n }}</strong></div><div class="meter"><span style="width:{{ (d.n/mx*100)|round }}%"></span></div></div>{% endfor %}</div></div>
+  <div class="col-lg-7" data-reveal><div class="card-x"><h3 class="mb-3">Recent appointments</h3><div class="table-responsive"><table class="table"><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead><tbody>
+   {% for a in recent %}<tr><td>{{ a.patient }}</td><td>{{ a.doctor }}</td><td>{{ a.appt_date }}</td><td>{{ status(a.status) }}</td></tr>{% endfor %}</tbody></table></div></div></div>
+ </div></section>
+</div>
+{% endblock %}

@@ -1,9 +1,15 @@
-{% extends "base.html" %}{% block title %}Doctors{% endblock %}
+{% extends "base.html" %}
+{% from "_components.html" import doctor_card, page_head %}
+{% block title %}Doctors{% endblock %}
 {% block body %}
-<div class="page-head"><div class="container"><h1>Doctors Directory</h1><p class="text-muted mb-0">Experienced specialists across every discipline.</p></div></div>
-<section class="section"><div class="container"><div class="row g-4">{% for d in doctors %}<div class="col-md-6"><div class="card-x d-flex gap-3">
- <div class="avatar">{{ d.full_name.replace('Dr. ','')[:1] }}{{ d.full_name.split()[-1][:1] }}</div>
- <div><h5 class="mb-1">{{ d.full_name }}</h5><span class="pill mb-2">{{ d.dept }}</span>
- <div class="small text-muted">{{ d.qualification }} &middot; {{ d.experience }} years experience</div><p class="small mt-2 mb-3">{{ d.bio }}</p>
- <a href="{{ url_for('main.book') }}" class="btn btn-soft btn-sm">Book appointment</a></div></div></div>{% endfor %}</div></div></section>
+<div class="wrap">
+ {{ page_head('Doctors Directory', 'Experienced specialists across every discipline.') }}
+ <section class="section">
+  <div class="filters" role="group" aria-label="Filter doctors by department">
+   <button type="button" class="filter" data-filter="all" aria-pressed="true">All</button>
+   {% for dept in doctors|map(attribute='dept')|unique %}<button type="button" class="filter" data-filter="{{ dept }}" aria-pressed="false">{{ dept }}</button>{% endfor %}
+  </div>
+  <div class="doc-grid">{% for d in doctors %}{{ doctor_card(d, loop.index0) }}{% endfor %}</div>
+ </section>
+</div>
 {% endblock %}

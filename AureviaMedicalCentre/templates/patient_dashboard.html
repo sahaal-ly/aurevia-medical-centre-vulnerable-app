@@ -1,12 +1,19 @@
-{% extends "base.html" %}{% block title %}Patient Dashboard{% endblock %}
+{% extends "base.html" %}
+{% from "_components.html" import page_head, status %}
+{% block title %}Patient Dashboard{% endblock %}
 {% block body %}
-<div class="page-head"><div class="container"><h1>Welcome back, {{ p.full_name.split()[0] }} 👋</h1><p class="text-muted mb-0">Patient ID: {{ p.id }}</p></div></div>
-<section class="section"><div class="container"><div class="row g-4">
- <div class="col-md-4"><div class="card-x"><div class="icon-b"><i class="bi bi-calendar2-week"></i></div><div class="stat">{{ total }}</div><div class="text-muted">Total appointments</div></div></div>
- <div class="col-md-4"><div class="card-x"><div class="icon-b b2"><i class="bi bi-person-vcard"></i></div><h5>My profile</h5><a class="btn btn-soft btn-sm" href="{{ url_for('main.my_profile') }}">View profile</a></div></div>
- <div class="col-md-4"><div class="card-x"><div class="icon-b b3"><i class="bi bi-plus-circle"></i></div><h5>New appointment</h5><a class="btn btn-brand btn-sm" href="{{ url_for('main.book') }}">Book now</a></div></div>
- <div class="col-12"><div class="card-x"><div class="d-flex justify-content-between mb-3"><h5>Upcoming appointments</h5><a href="{{ url_for('main.history') }}" class="small">View all</a></div>
-  {% if upcoming %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Date</th><th>Time</th><th>Doctor</th><th>Department</th><th>Reason</th></tr></thead><tbody>
-  {% for a in upcoming %}<tr><td>{{ a.appt_date }}</td><td>{{ a.appt_time }}</td><td>{{ a.doctor }}</td><td>{{ a.dept }}</td><td>{{ a.reason }}</td></tr>{% endfor %}</tbody></table></div>
-  {% else %}<p class="text-muted mb-0">No upcoming appointments. <a href="{{ url_for('main.book') }}">Book one</a>.</p>{% endif %}</div></div>
-</div></div></section>{% endblock %}
+<div class="wrap">
+ {% call page_head('Welcome back, ' ~ p.full_name.split()[0], 'Patient ID ' ~ p.id) %}<a class="btn btn-brand" href="{{ url_for('main.book') }}"><i class="bi bi-calendar-plus"></i>Book an Appointment</a>{% endcall %}
+ <section class="section--tight"><div class="row g-3 mt-1">
+  <div class="col-md-4" data-reveal><div class="card-x"><span class="icon-chip mb-3"><i class="bi bi-calendar2-week"></i></span><div class="stat-num">{{ total }}</div><div class="text-2">Total appointments</div></div></div>
+  <div class="col-md-4" data-reveal><div class="card-x"><span class="icon-chip icon-chip--green mb-3"><i class="bi bi-person-vcard"></i></span><h3>My profile</h3><p class="text-2 mb-3">Your personal and medical details.</p><a class="btn btn-soft btn-sm" href="{{ url_for('main.my_profile') }}">View profile</a></div></div>
+  <div class="col-md-4" data-reveal><div class="card-x"><span class="icon-chip icon-chip--warm mb-3"><i class="bi bi-clock-history"></i></span><h3>History</h3><p class="text-2 mb-3">All your past and upcoming visits.</p><a class="btn btn-soft btn-sm" href="{{ url_for('main.history') }}">View history</a></div></div>
+  <div class="col-12" data-reveal><div class="card-x">
+   <div class="d-flex justify-content-between align-items-center mb-3"><h3>Upcoming appointments</h3><a href="{{ url_for('main.history') }}" class="small fw-semibold">View all</a></div>
+   {% if upcoming %}<div class="table-responsive"><table class="table"><thead><tr><th>Date</th><th>Time</th><th>Doctor</th><th>Department</th><th>Reason</th></tr></thead><tbody>
+   {% for a in upcoming %}<tr><td>{{ a.appt_date }}</td><td>{{ a.appt_time }}</td><td>{{ a.doctor }}</td><td>{{ a.dept }}</td><td>{{ a.reason }}</td></tr>{% endfor %}</tbody></table></div>
+   {% else %}<p class="text-2 mb-0">No upcoming appointments. <a href="{{ url_for('main.book') }}">Book one</a>.</p>{% endif %}
+  </div></div>
+ </div></section>
+</div>
+{% endblock %}

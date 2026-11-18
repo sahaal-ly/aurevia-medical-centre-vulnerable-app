@@ -1,5 +1,5 @@
 {% set ep = request.endpoint %}
-<div class="admin-bar"><div class="container d-flex gap-4 flex-wrap"><strong><i class="bi bi-shield-check me-1"></i>Administration</strong>
-<a class="text-white text-decoration-none {{ 'fw-bold' if ep=='main.admin_dashboard' else 'opacity-75' }}" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
-<a class="text-white text-decoration-none {{ 'fw-bold' if ep=='main.admin_patients' else 'opacity-75' }}" href="{{ url_for('main.admin_patients') }}">Patient Management</a>
-<a class="text-white text-decoration-none {{ 'fw-bold' if ep=='main.admin_appointments' else 'opacity-75' }}" href="{{ url_for('main.admin_appointments') }}">Appointment Management</a></div></div>
+<div class="wrap"><nav class="admin-bar" aria-label="Administration"><strong><i class="bi bi-shield-check"></i>Administration</strong>
+ <a class="{{ 'active' if ep=='main.admin_dashboard' }}" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
+ <a class="{{ 'active' if ep=='main.admin_patients' }}" href="{{ url_for('main.admin_patients') }}">Patient Management</a>
+ <a class="{{ 'active' if ep=='main.admin_appointments' }}" href="{{ url_for('main.admin_appointments') }}">Appointment Management</a></nav></div>

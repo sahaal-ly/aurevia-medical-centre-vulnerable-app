@@ -1,12 +1,22 @@
-{% extends "base.html" %}{% block title %}Book Appointment{% endblock %}
+{% extends "base.html" %}
+{% from "_components.html" import page_head %}
+{% block title %}Book Appointment{% endblock %}
 {% block body %}
-<div class="page-head"><div class="container"><h1>Book an Appointment</h1><p class="text-muted mb-0">Choose a doctor and a time that suits you.</p></div></div>
-<section class="section"><div class="container"><div class="card-x mx-auto" style="max-width:700px">
- {% if errors %}<div class="alert alert-danger border-0 rounded-3"><ul class="mb-0 ps-3">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
- <form method="post" class="row g-3" novalidate><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <div class="col-12"><label class="form-label fw-semibold">Doctor</label><select name="doctor_id" class="form-select" required><option value="">Select a doctor</option>
-   {% for d in doctors %}<option value="{{ d.id }}" {{ 'selected' if form.doctor_id==d.id|string }}>{{ d.full_name }} — {{ d.dept }}</option>{% endfor %}</select></div>
-  <div class="col-md-6"><label class="form-label fw-semibold">Date</label><input type="date" name="appt_date" min="{{ today }}" class="form-control" value="{{ form.appt_date }}" required></div>
-  <div class="col-md-6"><label class="form-label fw-semibold">Time</label><select name="appt_time" class="form-select">{% for s in slots %}<option {{ 'selected' if form.appt_time==s }}>{{ s }}</option>{% endfor %}</select></div>
-  <div class="col-12"><label class="form-label fw-semibold">Reason for visit</label><textarea name="reason" rows="3" maxlength="200" class="form-control" required>{{ form.reason }}</textarea></div>
-  <div class="col-12"><button class="btn btn-brand w-100 py-2">Confirm appointment</button></div></form></div></div></section>{% endblock %}
+<div class="wrap">
+ {{ page_head('Book an Appointment', 'Choose a doctor and a time that suits you.') }}
+ <section class="section--tight"><div class="row g-3 mt-1">
+  <div class="col-lg-8" data-reveal><div class="card-x p-4">
+   {% if errors %}<div class="alert alert-danger" role="alert"><ul class="mb-0 ps-3">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+   <form method="post" class="row g-3" data-validate novalidate><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="col-12 field mb-0"><label for="doctor_id">Doctor</label><select id="doctor_id" name="doctor_id" class="form-select" required><option value="">Select a doctor</option>
+     {% for d in doctors %}<option value="{{ d.id }}" {{ 'selected' if form.doctor_id==d.id|string }}>{{ d.full_name }} &mdash; {{ d.dept }}</option>{% endfor %}</select><div class="invalid-feedback">Please select a doctor.</div></div>
+    <div class="col-md-6 field mb-0"><label for="appt_date">Date</label><input id="appt_date" type="date" name="appt_date" min="{{ today }}" class="form-control" value="{{ form.appt_date }}" required><div class="invalid-feedback">Select a date from today onwards.</div></div>
+    <div class="col-md-6 field mb-0"><label for="appt_time">Time</label><select id="appt_time" name="appt_time" class="form-select">{% for s in slots %}<option {{ 'selected' if form.appt_time==s }}>{{ s }}</option>{% endfor %}</select></div>
+    <div class="col-12 field mb-0"><label for="reason">Reason for visit</label><textarea id="reason" name="reason" rows="4" minlength="3" maxlength="200" class="form-control" required>{{ form.reason }}</textarea><div class="invalid-feedback">Please describe the reason (3-200 characters).</div></div>
+    <div class="col-12"><button class="btn btn-brand btn-block">Confirm appointment</button></div>
+   </form>
+  </div></div>
+  <div class="col-lg-4" data-reveal><div class="emergency h-100"><span class="eyebrow" style="color:#fff">Need care now?</span><h3>Emergency, 24 x 7</h3><div class="big">555-0100</div><p>For urgent care, please call instead of booking online.</p></div></div>
+ </div></section>
+</div>
+{% endblock %}

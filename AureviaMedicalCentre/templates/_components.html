@@ -1,0 +1,64 @@
+{# Reusable UI components (macros). Import with: {% from "_components.html" import ... %} #}
+
+{# Flat, faceless professional illustration (no photographs are bundled with the project). #}
+{% macro bust(skin, hair) -%}
+<path d="M18 170C18 128 56 112 100 112s82 16 82 58z" fill="#fff"/>
+<path d="M78 114l22 28 22-28z" fill="#6F9CA7"/>
+<path d="M88 98h24v18q-12 10-24 0z" fill="{{ skin }}"/>
+<ellipse cx="100" cy="78" rx="26" ry="30" fill="{{ skin }}"/>
+<path d="M73 78c-3-28 15-34 27-34s30 8 27 34c-8-12-18-16-27-16s-19 4-27 16z" fill="{{ hair }}"/>
+<path d="M78 120v20a14 14 0 0 0 28 0v-6" fill="none" stroke="#386398" stroke-width="3" stroke-linecap="round"/>
+<circle cx="106" cy="130" r="4.5" fill="#386398"/>
+{%- endmacro %}
+
+{% macro portrait(i=0) -%}
+{% set bgs = ['#B1CFD6','#DCE9E4','#EAD9D0','#CFDCE8'] %}
+{% set skins = ['#E8C3A6','#B98262','#F0CDB2','#9C6B4B'] %}
+{% set hairs = ['#2B2627','#15151A','#5B4030','#262022'] %}
+{% set k = i % 4 %}
+<svg viewBox="0 0 200 170" role="img" aria-label="Doctor illustration" preserveAspectRatio="xMidYMax slice">
+  <rect width="200" height="170" fill="{{ bgs[k] }}"/>
+  <circle cx="150" cy="40" r="42" fill="#fff" opacity=".35"/>
+  {{ bust(skins[k], hairs[k]) }}
+</svg>
+{%- endmacro %}
+
+{% macro initials(name) -%}{{ name.replace('Dr. ', '').split()[0][:1] }}{{ name.split()[-1][:1] }}{%- endmacro %}
+
+{% macro section_head(eyebrow, title, text='', center=False) -%}
+<div class="section-head {{ 'section-head--center' if center }}" data-reveal>
+  <span class="eyebrow">{{ eyebrow }}</span>
+  <h2>{{ title }}</h2>
+  {% if text %}<p>{{ text }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro status(value) -%}<span class="status status-{{ value }}">{{ value }}</span>{%- endmacro %}
+
+{% macro doctor_card(d, i) -%}
+<article class="doc" data-reveal data-dept="{{ d.dept }}">
+  <div class="doc-photo">{{ portrait(i) }}</div>
+  <div class="doc-body">
+    <span class="chip align-self-start">{{ d.dept }}</span>
+    <h3>{{ d.full_name }}</h3>
+    <div class="doc-meta">
+      <span><i class="bi bi-mortarboard"></i>{{ d.qualification }}</span>
+      <span><i class="bi bi-award"></i>{{ d.experience }} years of experience</span>
+    </div>
+    <a class="btn btn-soft btn-sm" href="{{ url_for('main.book') }}">Book appointment <i class="bi bi-arrow-right"></i></a>
+  </div>
+</article>
+{%- endmacro %}
+
+{% macro department_card(d) -%}
+<a class="dept" href="{{ url_for('main.doctors') }}" data-reveal aria-label="{{ d.name }} - view doctors">
+  <span class="icon-chip"><i class="bi {{ d.icon }}"></i></span>
+  <h3>{{ d.name }}</h3>
+  <p>{{ d.description }}</p>
+  <span class="go">View doctors <i class="bi bi-arrow-right"></i></span>
+</a>
+{%- endmacro %}
+
+{% macro page_head(title, text='') -%}
+<div class="page-head" data-reveal><div><h1>{{ title }}</h1>{% if text %}<p>{{ text }}</p>{% endif %}</div>{{ caller() if caller else '' }}</div>
+{%- endmacro %}

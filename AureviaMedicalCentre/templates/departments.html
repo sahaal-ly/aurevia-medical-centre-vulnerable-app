@@ -1,7 +1,9 @@
-{% extends "base.html" %}{% block title %}Departments{% endblock %}
+{% extends "base.html" %}
+{% from "_components.html" import department_card, page_head %}
+{% block title %}Departments{% endblock %}
 {% block body %}
-<div class="page-head"><div class="container"><h1>Departments</h1><p class="text-muted mb-0">Comprehensive speciality care.</p></div></div>
-<section class="section"><div class="container"><div class="row g-4">{% for d in departments %}<div class="col-md-6 col-lg-4"><div class="card-x">
- <div class="icon-b {{ ['','b2','b3'][loop.index0 % 3] }}"><i class="bi {{ d.icon }}"></i></div><h5>{{ d.name }}</h5><p class="text-muted">{{ d.description }}</p>
- <a href="{{ url_for('main.doctors') }}" class="fw-semibold text-decoration-none">See doctors <i class="bi bi-arrow-right"></i></a></div></div>{% endfor %}</div></div></section>
+<div class="wrap">
+ {{ page_head('Departments', 'Comprehensive speciality care.') }}
+ <section class="section"><div class="bento">{% for d in departments %}{{ department_card(d) }}{% endfor %}</div></section>
+</div>
 {% endblock %}
